@@ -24,8 +24,7 @@ def init_app(app):
     def games():
         # acessando o primeiro
         game = gamelist[0]
-        console = consolelist[0]
-        
+
         if request.method == 'POST':
             if request.form.get('jogador'):  # nome do input
                 jogadores.append(request.form.get('jogador'))

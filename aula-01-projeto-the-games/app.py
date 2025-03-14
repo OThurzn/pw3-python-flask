@@ -16,15 +16,20 @@ def home():
 
 @app.route('/games')
 def games():
-    titulo = 'CS-GO'
-    ano = 2012
-    categoria = 'FPS Online'
-    jogadores = ['iruah', 'davi_lambari', 'edsongf', 'kioto', 'black.butterfly', 'jujudopix']
-    jogos = ['Fortnite', 'PUBG', 'The last of us', 'God of War', 'Ghost of Tsushima', 'Spider Man', 'Cuphead']
+
+    # Dicionario no Python (objeto)
+    game = {'Titulo': 'CS-GO',
+            'Ano': 2012,
+            'Categoria': 'FPS Online'}
+
+    jogadores = ['iruah', 'davi_lambari', 'edsongf',
+                 'kioto', 'black.butterfly', 'jujudopix']
+
+    jogos = ['Fortnite', 'PUBG', 'The last of us', 'God of War',
+             'Ghost of Tsushima', 'Spider Man', 'Cuphead']
+
     return render_template('games.html',
-                           titulo=titulo,
-                           ano=ano,
-                           categoria=categoria,
+                           game=game,
                            jogadores=jogadores,
                            jogos=jogos)
 

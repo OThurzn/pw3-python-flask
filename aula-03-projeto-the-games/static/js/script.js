@@ -1,0 +1,1 @@
+alert('Se vocÊ está lendo isso com o Javascript foi importado com o suceeso!')
