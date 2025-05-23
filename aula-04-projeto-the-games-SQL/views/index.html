@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
 
-<h1>Bem vindo ao The Games!</h1>
-<hr />
-<a href="/games">Ir página de jogos</a>
-<br /><br />
+{% block content %}
+
+<h1>Bem-vindo ao The Games!</h1>
+<hr>
+<a href="/games">Ir para página de jogos</a>
+<br><br>
 <a href="/cadgames">Cadastrar jogos</a>
-<br /><br />
-<a href="/cadconsoles">Cadastrar consoles</a>
 
 <hr>
+<!-- Importando a imagem -->
+<img src="{{url_for('static', filename='images/main.jpg')}}" alt="The Games" width="600">
 
-<img src="{{url_for('static', filename='images/main.jpg')}}" alt="The Games">
 {% endblock content %}

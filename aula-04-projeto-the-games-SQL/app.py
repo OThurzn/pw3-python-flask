@@ -1,23 +1,21 @@
-# Comentário em Python
-# pip install pymysql; pip install mysqlclient; pip install flask-sqlalchemy
-# Importando o pacote do Flask
-from flask import Flask
+# Importando o Flask
+from flask import Flask, render_template
 # Importando o PyMySQL
 import pymysql
 # Importando as rotas que estão nos controllers
 from controllers import routes
-# Importando o model Game
+# Importando os models
 from models.database import db
 
-# Carregamoento da variável app
+# Carregando o Flask na variável app
 app = Flask(__name__, template_folder='views')
 
-# Enviando o Flask (app) para a função init_app do routes
+# Chamando as rotas
 routes.init_app(app)
 
 # Define o nome do banco de dados
 DB_NAME = 'games'
-# Configura o FLask com o banco definido
+# Configura o Flask com o banco definido
 app.config['DATABASE_NAME'] = DB_NAME
 
 # Passando o endereço do banco ao Flask
@@ -29,26 +27,28 @@ if __name__ == '__main__':
     connection = pymysql.connect(host='localhost',
                                  user='root',
                                  password='',
-                                 charset='utf8mb4',
-                                 cursorclass='pymysql.cursors.DictCursor')
+                                 charset='utf8mb4',    
+                                 cursorclass=pymysql.cursors.DictCursor)
     # Tentando criar o banco
     # Try, trata o sucesso
     try:
-        with connection.cursor() as cursor:
+        # with cria um recurso temporariamente
+        with connection.cursor() as cursor: # alias
             # Cria o banco de dados (se ele não existir)
             cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}")
             print(f"O banco de dados {DB_NAME} está criado!")
-
-            # Except, trata a falha
+    # Except, trata a falha
     except Exception as e:
         print(f"Erro ao criar o banco de dados: {e}")
     finally:
         connection.close()
-        
-    # Passando o flasj para SQLAlchemy
+    
+    # Passando o flask para SQLAlchemy
     db.init_app(app=app)
     
-    #Criando as tabelas a partir do model
+    # Criando as tabelas a partir do model
     with app.test_request_context():
         db.create_all()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    
+    # Inicializando a aplicação Flask    
+    app.run(host='localhost', port=5000, debug=True)
