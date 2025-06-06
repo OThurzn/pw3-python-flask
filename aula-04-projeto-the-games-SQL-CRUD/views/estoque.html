@@ -1,0 +1,84 @@
+{% extends 'base.html' %} {% block content %}
+
+<h2>Controle de estoque</h2>
+<br />
+<details>
+  <summary>[ Cadastrar novo jogo ]</summary>
+  <div class="col-md-4">
+    <form action="{{url_for('estoque')}}" method="POST">
+      <input
+        type="text"
+        name="titulo"
+        placeholder="Título"
+        class="form-control"
+        required
+      />
+      <input
+        type="text"
+        name="ano"
+        placeholder="Ano"
+        class="form-control"
+        required
+      />
+      <input
+        type="text"
+        name="categoria"
+        placeholder="Categoria"
+        class="form-control"
+        required
+      />
+      <input
+        type="text"
+        name="plataforma"
+        placeholder="Plataforma"
+        class="form-control"
+        required
+      />
+      <input
+        type="text"
+        name="preco"
+        placeholder="Preço"
+        class="form-control"
+        required
+      />
+
+      <input type="submit" value="Cadastrar" class="btn btn-success" required />
+      <input type="reset" value="Limpar" class="btn btn-danger" required />
+    </form>
+  </div>
+</details>
+<hr />
+<table class="table table-bordered table-hover">
+  <thead class="table-dark">
+    <tr>
+      <td>Título</td>
+      <td>Ano</td>
+      <td>Categoria</td>
+      <td>Plataforma</td>
+      <td>Preço</td>
+      <td style="text-align: center">Ações</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for game in gamesEmEstoque %}
+    <tr>
+      <td>{{game.titulo}}</td>
+      <td>{{game.ano}}</td>
+      <td>{{game.categoria}}</td>
+      <td>{{game.plataforma}}</td>
+      <td style="margin: 3vw">{{game.preco}}</td>
+      <td style="text-align: center; margin: 7vw">
+        <a href="{{url_for('edit', id=game.id)}}" class="btn btn-warning">Editar</a>
+        <a
+          href="{{url_for('estoque', id=game.id)}}"
+          class="btn btn-danger"
+          onclick="return confirm('Deseja realmente excluir o jogo {{game.titulo}}?')"
+          >Excluir</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock content %}
