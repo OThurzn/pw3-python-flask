@@ -12,4 +12,4 @@ routes.init_app(app)
 # Iniciando o servidor no localhost, porta 5001, modo de depuração ativado
 if __name__ == '__main__':
     # Inicializando a aplicação Flask
-    app.run(host='localhost', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=4000, debug=True)
