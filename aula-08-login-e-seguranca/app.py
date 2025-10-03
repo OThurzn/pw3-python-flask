@@ -22,7 +22,7 @@ app.config['DATABASE_NAME'] = DB_NAME
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://root@localhost/{DB_NAME}'
 
 # Definindo um segredo para as sessões do site
-app.config['SECRET_KEY'] = f'thegamessecret'
+app.config['SECRET_KEY'] = 'thegamessecret'
 
 # Iniciando o servidor no localhost, porta 5000, modo de depuração ativado
 if __name__ == '__main__':
