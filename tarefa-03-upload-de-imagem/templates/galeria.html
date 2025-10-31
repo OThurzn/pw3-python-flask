@@ -1,17 +1,19 @@
 {% extends 'base.html' %} {% block content %}
-
 <h2 style="text-align: center">Galeria</h2>
-
-{% with messages = get_flashed_messages(with_categories=true) %} {% for
-category, message in messages %}
-<div class="alert alert-{{ category }}">{{ message }}</div>
-{% endfor %} {% endwith %}
-
-<div class="container col-6">
+<br />
+<div class="row">
+  {% for img in imagens %}
+  <div class="col-md-3 m-auto">
+    <img src="/static/uploads/{{img.filename}}" class="img-thumbnail" />
+  </div>
+  {% endfor %}
+</div>
+<br />
+<div class="container col-6" style="padding: 10vh">
   <div class="card mt-4">
     <div class="card-body">
       <form
-        action="{{ url_for('galeria') }}"
+        action="{#{url_for('galeria')}#}"
         method="post"
         enctype="multipart/form-data"
       >
@@ -22,5 +24,4 @@ category, message in messages %}
     </div>
   </div>
 </div>
-
-{% endblock %}
+{% endblock content %}

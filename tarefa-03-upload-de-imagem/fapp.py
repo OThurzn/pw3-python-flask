@@ -2,9 +2,17 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import sys
 import os
 import uuid
+from database import db, Imagem
+
 
 app = Flask(__name__)
 app.secret_key = 'troque-essa-chave'  # necessário para flash messages
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 feedbacks = []
 
@@ -39,13 +47,6 @@ def index():
 
     return render_template('index.html', feedbacks=feedbacks)
 
-
-# UPLOAD DE IMAGENS
-@app.route('/galeria', methods=['GET', 'POST'])
-def galeria():
-
-    return render_template('galeria.html')
-
 # Define pasta que receberá arquivos de upload
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 # Define o tamanho máximo de um arquivo de upload
@@ -60,6 +61,8 @@ def arquivos_permitidos(filename):
 # UPLOAD DE IMAGENS
 @app.route('/galeria', methods=['GET', 'POST'])
 def galeria():
+    # Seleciona os nomes dos arquivos de imagens no banco
+    imagens = Imagem.query.all()
 
     if request.method == 'POST':
         # Captura o arquivo vindo do formulário
@@ -72,6 +75,13 @@ def galeria():
 
         # Define um nome aleatório para o arquivo
         filename = str(uuid.uuid4())
+
+        # Gravando o nome do arquivo no banco
+        img = Imagem(filename)
+        db.session.add(img)
+        db.session.commit()
+
+
         # Salva o arquivo na pasta de uploads
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
             os.makedirs(app.config['UPLOAD_FOLDER'])
@@ -79,11 +89,11 @@ def galeria():
         flash("Imagem enviada com sucesso!", 'success')
 
         return redirect(url_for('galeria'))
-    return render_template('galeria.html')
+    return render_template('galeria.html', imagens=imagens)
 
 
 if __name__ == '__main__':
-    # Configuração para evitar problemas de pipe no Windows
+    
     if sys.platform.startswith('win'):
         import msvcrt
         msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
